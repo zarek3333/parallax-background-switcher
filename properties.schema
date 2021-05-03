@@ -36,7 +36,7 @@
                   "enum": ["animation", "parallax"],
                   "inputType": {"type": "Select", "options": ["animation", "parallax"]},
                   "title": "Set if you want an animation or parallax effect",
-                  "default": "animation",
+                  "default": "parallax",
                   "validators": ["required"],
                   "help": "'animation' or 'parallax'"
                 }

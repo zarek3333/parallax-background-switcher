@@ -16,16 +16,21 @@ define([
 		_activeId: null,
 
 		initialize: function() {
-			this._blockModels = this.model.findDescendants('blocks').filter(function(model) {
-				return model.get("_parallaxbgSwitcher");
+			this.disableSmoothScrolling();
+
+			this._blockModels = _.filter(this.model.findDescendantModels('block'), function(model) {
+				return model.get('_parallaxbgSwitcher');
 			});
-			if(this._blockModels.length == 0) {
-			        this.onRemove();
-			        return;
+
+			if (this._blockModels.length === 0) {
+				this.onRemove();
+				return;
 			}
+
 			this._blockModelsIndexed = _.indexBy(this._blockModels, "_id");
 
 			this.listenTo(Adapt, "pageView:ready", this.onPageReady);
+			this.listenTo(Adapt, "device:changed device:resize", this.onPageReady);
 			this.listenTo(Adapt, "remove", this.onRemove);
 			this.setupBackgroundContainer();
 		},
@@ -44,7 +49,7 @@ define([
 
 				if (!this._firstId) this._firstId = id;
 
-				var $blockElement = this.$el.find("."+ id);
+				var $blockElement = this.$el.find(".block."+ id);
 
 				$blockElement.attr("data-ParallaxbgSwitcher", id);
 				this.$blockElements[id] = $blockElement;
@@ -71,7 +76,7 @@ define([
 	            	var myswitcherwidth = $('.background-switcher-block').width();
 	            	$('.article-block-slider-enabled .block').removeAttr( 'data-parallaxbgswitcher' ).removeClass('background-switcher-block').css({'width': myswitcherwidth+'px'});
 			    } else {
-					$blockElement.find('.block-inner').addClass('background-switcher-block-mobile').css({'background-image': 'url('+options.mobileSrc+')'});
+					$blockElement.find('.block__inner').addClass('background-switcher-block-mobile').css({'background-image': 'url('+options.mobileSrc+')'});
 			    }
 
 			}
@@ -84,10 +89,6 @@ define([
             } else if (thebgoptions === 'parallax') {// INSERTED
                 this.showParallax();// INSERTED
             }// INSERTED
-
-            _.delay(function() {
-                $(window).resize();
-            }, 250);
 
 
 		},
@@ -106,6 +107,21 @@ define([
 				this.$el.prepend(this.$backgroundContainer);
             }// INSERTED
 
+		},
+
+		/**
+		 * Turn off smooth scrolling in IE and Edge to stop the background from flickering on scroll
+		 */
+		disableSmoothScrolling: function() {
+			var browser = Adapt.device.browser;
+
+			if (browser !== 'internet explorer' && browser !== 'microsoft edge') return;
+
+			$('body').on('wheel', function(event) {
+				event.preventDefault();
+
+				window.scrollTo(0, window.pageYOffset + event.originalEvent.deltaY);
+			});
 		},
 		
 
@@ -172,12 +188,10 @@ define([
 
 	});
 
-	Adapt.on("pageView:postRender", function(view) {
+	Adapt.on('pageView:postRender', function(view) {
 		var model = view.model;
-		if (model.get("_parallaxbgSwitcher")) {
-			if (model.get("_parallaxbgSwitcher")._isActive) {
-				new ParallaxbgSwitcherView({model: model, el: view.el });
-			}
+		if (model.get("_parallaxbgSwitcher") && model.get("_parallaxbgSwitcher")._isActive) {
+			new ParallaxbgSwitcherView({model: model, el: view.el });
 		}
 	});
 

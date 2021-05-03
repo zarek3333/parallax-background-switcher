@@ -1,7 +1,7 @@
 
 .page.background-switcher-active {
 
-    .page-inner {
+    .page__inner {
         position: relative;
     }
     
@@ -13,11 +13,10 @@
         }
 
         .block {
-            background-color: @background-color;
+            background-color: @white;
                 
             &.background-switcher-block {
                 background-color: transparent;
-                min-height: 650px;
                 background-size: cover;
 
                 .background-switcher-block-mobile {
@@ -31,9 +30,6 @@
                     box-shadow: none !important;
                 }
             }
-        }
-        .nth-child-1.block {
-            background-position: center top !important;
         }
         
         .background-switcher-container {
@@ -115,11 +111,3 @@
     
 
 }
-
-// FIXES MOUSE SCROLLING ISSUE TO THE EDGE BROWSER FOR THE THEME 
-  _:-ms-lang(x), _:-webkit-full-screen, .background-switcher-block {z-index:1 !important;}
-
-// FIXES MOUSE SCROLLING ISSUE TO THE IE BROWSER FOR THE THEME 
-  @media all and (-ms-high-contrast:none) {
-     *::-ms-backdrop, .background-switcher-block {background-attachment: scroll !important;}  
-  }
