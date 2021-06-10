@@ -15,9 +15,8 @@
         .block {
             background-color: @white;
                 
-            &.background-switcher-block:not(.nominheight) {
+            &.background-switcher-block {
                 background-color: transparent;
-                min-height: 650px;
                 background-size: cover;
 
                 .background-switcher-block-mobile {
@@ -30,6 +29,9 @@
                 .background-switcher-block-mobile:last-child {
                     box-shadow: none !important;
                 }
+            }
+            &.background-switcher-block:not(.nominheight) {
+                min-height: 650px;
             }
         }
         
