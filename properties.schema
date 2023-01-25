@@ -1,0 +1,123 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "required": false,
+  "properties": {
+    "pluginLocations": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "course": {
+          "type": "object",
+           "properties": {
+            "_parallaxbgSwitcher": {
+              "type": "object",
+              "required": false,
+              "legend": "Background Image Switcher",
+              "properties": {
+                "_preload": {
+                  "type": "string",
+                  "required": false,
+                  "default": "none",
+                  "title": "Video preload setting",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "How the background video tags should preload, either metadata or none, default is none"
+                },
+                "_inviewThreshold": {
+                  "type": "number",
+                  "required": false,
+                  "default": 66,
+                  "title": "Inview threshold",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "The percentage amount required onscreen before playing."
+                },
+                "_isMuted": {
+                  "type": "boolean",
+                  "required": false,
+                  "default": true,
+                  "title": "Mute Background Video's in Course",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "All video backgrounds are muted through out the course."
+                }
+              }
+            }
+          }
+        },
+        "contentobject": {
+          "type": "object",
+          "properties": {
+            "_parallaxbgSwitcher": {
+              "type": "object",
+              "required":true,
+              "legend": "Background Image Switcher",
+              "properties": {
+                "_isActive": {
+                  "type": "boolean",
+                  "required":true,
+                  "default": true,
+                  "title": "Enable Background Switcher",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "Background Switcher block options object"
+                },
+                "_bgoptions": {
+                  "type": "string",
+                  "required": true,
+                  "enum": ["animation", "parallax"],
+                  "inputType": {"type": "Select", "options": ["animation", "parallax"]},
+                  "title": "Set if you want an animation or parallax effect",
+                  "default": "parallax",
+                  "validators": ["required"],
+                  "help": "'animation' or 'parallax'"
+                }
+              }
+            }
+          }
+        },
+        "article": {
+          "type": "object"
+        },
+        "block": {
+          "type": "object",
+          "properties": {
+            "_parallaxbgSwitcher": {
+              "type": "object",
+              "required": false,
+              "legend": "Background Image Switcher",
+              "properties": {               
+                "src": {
+                  "type": "string",
+                  "required": false,
+                  "title": "Background Image Select or Video Poster Image",
+                  "default": "",
+                  "inputType": "Asset:image",
+                  "validators": [],
+                  "help": "The background image you want shown for this block or a video fallback/poster image"
+                },
+                "mobileSrc": {
+                  "type": "string",
+                  "required": false,
+                  "title": "Background Video Select",
+                  "default": "",
+                  "inputType": "Asset:video",
+                  "validators": [],
+                  "help": "The background video you want shown for this block"
+                }
+              }
+            }
+          }
+        },
+        "component": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

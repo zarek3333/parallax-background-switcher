@@ -1,0 +1,40 @@
+    // course.json
+    {
+        "_preload": "none",
+        "_inviewThreshold": 80
+    }
+
+
+    // contentObject.json
+    {
+        "_id": "co-10",
+        "_parentId": "course",
+        "_type": "page",
+        "_classes": "",
+        "title": "",
+        "body": "",
+        "_graphic": {
+            "alt": "",
+            "src": "course/en/images/origami-menu-two.jpg"
+        },
+        "linkText": "View",
+        "duration": "2 mins",
+        "_parallaxbgSwitcher": {
+            "_isActive": true
+        }
+    }
+
+    // blocks.json
+    {
+        "_id": "b-90",
+        "_parentId": "a-25",
+        "_type": "block",
+        "_classes": "",
+        "title": "Block 1",
+        "body": "",
+        "_parallaxbgSwitcher": {
+            "src": "course/en/images/example.jpg",
+            "_comment": "use mobileSrc to provide a mobile fallback when _src is video.",
+            "mobileSrc": ""
+        }
+    }

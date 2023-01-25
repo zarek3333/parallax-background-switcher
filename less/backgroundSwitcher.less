@@ -1,0 +1,133 @@
+.background-switcher-active {
+  .background-switcher-container {
+     position: relative;
+      z-index: 0;
+  }
+  .backgroundswitcher {
+    &__item {
+      position: fixed;
+      top: @navigation-height;
+      left: 50%;
+      right: 0;
+      margin: auto;
+      height: 100%;
+      width: 100%;
+      max-width: 100%;
+      min-height: 650px;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      z-index: -1;
+      opacity: 0;
+      .transition(opacity .5s ease-in);
+      transform: translate(-50%, 0);
+      // transform: translate3d(0, 0, 1px);
+
+      &:not(.nominheight) {
+        min-height: inherit;
+      }
+      
+      .dir-rtl& {
+        left: 0;
+        right: 50%;
+        transform: translate(50%, 0);
+
+        // flip to clear content (for consistency with components displaying in reverse order for rtl languages)
+/*         img, video {
+          transform: rotateY(180deg);
+        } */
+      }
+    }
+
+    &__item.is-deactive {
+      transition: none;
+      opacity: 1;
+      z-index: 0;
+    }
+
+    /* Make sure IE11 ignores opacity animation */
+    &__item.is-deactive-force {
+      transition: none;
+      opacity: 0;
+      z-index: 0;
+    }
+
+    &__item.is-active {
+      .transition(opacity .5s ease-in);
+      opacity: 1;
+      z-index: 1;
+    }
+
+    &__item video,
+    &__item .poster {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+
+    &__item .poster {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      transition: opacity 0.5s;
+      opacity: 1;
+    }
+
+    &-hide-poster {
+      .poster {
+        opacity: 0;
+      }
+    }
+
+    &-lowbandwidth {
+      video {
+        display: none;
+      }
+      .poster {
+        opacity: 1;
+      }
+    }
+
+    &-image-preload {
+      position: fixed;
+      bottom: 200%;
+    }
+
+  }
+
+  &.a11y-no-background-images .background-switcher-container {
+    display: none;
+  }
+}
+
+.to-white {
+  background-color: @white;
+}
+//MS BG FIX FOR PAGE HEADER, NO BLOCK BG & YEAR AT BOTTOM
+.background-switcher-active .page .pg_header_img {
+    z-index: 0;
+    position: relative;
+}
+.background-switcher-active .block:not(.has-background-switcher-image) {
+    background-color: @background-inverted !important;
+}
+.background-switcher-active #copyear {
+    z-index: 0;
+    position: sticky;
+}
+
+@media all and (max-width:@device-width-medium){
+    .background-switcher-active .backgroundswitcher__item video, .background-switcher-active .backgroundswitcher__item .poster {
+      display:none;
+    }
+    .background-switcher-container, .backgroundswitcher__item, .has-background-switcher-image {
+      min-height: inherit;
+      background-attachment: scroll !important;
+      background: -webkit-linear-gradient(#d2d2d2, #EEEEEE, #d2d2d2) !important;
+      background: -o-linear-gradient(#d2d2d2, #EEEEEE, #d2d2d2) !important;
+      background: -moz-linear-gradient(#d2d2d2, #EEEEEE, #d2d2d2) !important;
+      background: linear-gradient(#d2d2d2, #EEEEEE, #d2d2d2) !important;
+    }
+}
