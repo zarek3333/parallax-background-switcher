@@ -148,7 +148,19 @@ class BackgroundSwitcher extends Backbone.Controller {
 
   firstClick(event) {
     for (let i = 0, l = this._availableVideoTags.length; i < l; i++) {
-      this._availableVideoTags[i].play();
+      // Show loading animation.
+      const playPromise = this._availableVideoTags[i].play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          // Automatic playback started!
+          // Show playing UI.
+        })
+        .catch(error => {
+          // Auto-play was prevented
+          // Show paused UI.
+        });
+      }
     }
     _.delay(this.pauseAll, 100);
   }
