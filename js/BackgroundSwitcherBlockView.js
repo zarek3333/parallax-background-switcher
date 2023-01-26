@@ -45,7 +45,19 @@ export default class BackgroundSwitcherBlockView extends Backbone.View {
     if (!this.isVideo) return;
     if (Adapt.parallaxbgSwitcher.lowBandwidth) return;
     if (Adapt?.visua11y?.noAnimations) return;
-    this.video.play();
+    // Show loading animation.
+    const playPromise = this.video.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        // Automatic playback started!
+        // Show playing UI.
+      })
+      .catch(error => {
+        // Auto-play was prevented
+        // Show paused UI.
+      });
+    }
   }
 
   pause() {
