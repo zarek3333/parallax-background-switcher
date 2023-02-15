@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/mike-st/parallax-background-switcher"
   },
-  "version": "4.3.2",
+  "version": "4.3.3",
   "framework": ">=5.8",
   "homepage": "https://github.com/mike-st/parallax-background-switcher",
   "authors": [
