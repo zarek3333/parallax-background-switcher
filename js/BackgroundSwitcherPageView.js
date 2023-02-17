@@ -22,7 +22,7 @@ export default class BackgroundSwitcherPageView extends Backbone.View {
   }
 
   onBlockViewPostRender(view) {
-    const options = this.model.findAncestor('contentObjects').get('_parallaxbgSwitcher');
+    const options = view.model.findAncestor('contentObjects').get('_parallaxbgSwitcher');
     const aniselect = options._isActive;
     if (aniselect === false) return;
     const parallaxbgSwitcherBlockView = new BackgroundSwitcherBlockView({ model: view.model, blockView: view });
