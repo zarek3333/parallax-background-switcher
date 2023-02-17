@@ -73,8 +73,16 @@ export default class BackgroundSwitcherBlockView extends Backbone.View {
   initialize({ blockView }) {
     this.onTimeUpdate = this.onTimeUpdate.bind(this);
     this.onBlockInView = this.onBlockInView.bind(this);
-    if (this.isVideo) this.renderVideo();
-    if (!this.isVideo) this.renderImage();
+    if (this.isVideo) {
+      this.listenTo(Adapt, 'device:resize', this.updateAttributes, this.renderVideo);
+      this.listenTo(Adapt, 'device:changed', this.updateAttributes, this.renderVideo);
+      this.renderVideo();
+    }
+    if (!this.isVideo) {
+      this.listenTo(Adapt, 'device:resize', this.renderImage);
+      this.listenTo(Adapt, 'device:changed', this.renderImage);
+      this.renderImage();
+    }
     this.listenTo(Adapt, 'remove', this.onRemove);
     this.blockView = blockView;
     // Take the first measurement on postRender
@@ -92,7 +100,6 @@ export default class BackgroundSwitcherBlockView extends Backbone.View {
   }
 
   renderVideo() {
-    // this.$el.html(Handlebars.templates.parallaxbgSwitcherVideo(this.model.toJSON()));
     const videoTag = Adapt.parallaxbgSwitcher.getVideoTag();
     videoTag.loop = true;
     videoTag.playsinline = true;
@@ -141,14 +148,7 @@ export default class BackgroundSwitcherBlockView extends Backbone.View {
     BackgroundSwitcherBlockView.addRecord(this);
     const direction = BackgroundSwitcherBlockView.activeDirection(this);
     if (!direction) return;
-    const options = this.model.findAncestor('contentObjects').get('_parallaxbgSwitcher');
-    const aniselect = options._bgoptions;
-
-    if (aniselect === 'animation') {
-        this.showBackground(direction);
-    } else if (aniselect === 'parallax') {
-        this.showParallax(direction);
-    }
+    this.showBackground(direction);
   }
 
   activate() {
@@ -188,18 +188,6 @@ export default class BackgroundSwitcherBlockView extends Backbone.View {
       currentDeactiveView?.removeForceDeactivate();
       this.activate();
     });
-  }
-
-  showParallax(direction) {
-    this.updateAttributes();
-    const currentActiveView = BackgroundSwitcherBlockView.findRecord(record => record.view.$el.hasClass('is-active'))?.view;
-    const currentDeactiveView = BackgroundSwitcherBlockView.findRecord(record => record.view.$el.hasClass('is-deactive'))?.view;
-    currentDeactiveView?.forceDeactivate();
-    currentActiveView?.deactivate();
-    this.removeClasses();
-    BackgroundSwitcherBlockView.setDirection(direction);
-    currentDeactiveView?.removeForceDeactivate();
-    this.activate();
   }
 
   updateAttributes() {
